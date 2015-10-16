@@ -4,6 +4,6 @@
 /nginx/*
 /php-installer/*
 .idea
-.idea/*
+/.idea/*
 
 
