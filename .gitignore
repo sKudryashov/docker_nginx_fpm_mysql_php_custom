@@ -4,6 +4,7 @@
 /nginx/*
 /php-installer/*
 .idea
+/.idea/*
 .idea/*
-
+.idea/workspace.xml
 
