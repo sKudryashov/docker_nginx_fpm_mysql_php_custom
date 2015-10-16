@@ -1,7 +1,7 @@
 FROM debian:8.2
 MAINTAINER s.a.kudryashov@gmail.com
 
-# WGET, CURL, PEAR, PHING, MC, VIM, LOCATE, SUPERVISOR installation
+#WGET, CURL, PEAR, PHING, MC, VIM, LOCATE, SUPERVISOR installation
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y apt-utils
 RUN apt-get update -y && apt-get install --no-install-recommends -y -q curl build-essential ca-certificates git
@@ -26,19 +26,6 @@ RUN apt-get install -y libmemcached-dev && php-installer extension memcached
 
 RUN apt-get install -y cmake build-essential fakeroot devscripts dpkg-dev
 
-#apt-get install \
-#    build-essential \
-#    fakeroot \
-#    devscripts \
-#    dpkg-dev \
-#    gnupg \
-#    debhelper \
-#    cowbuilder \
-#    approx \
-#    reprepro \
-#    createrepo \
-#    cmake
-
 RUN wget -O- http://packages.couchbase.com/ubuntu/couchbase.key | apt-key add -
 RUN wget -O/etc/apt/sources.list.d/couchbase.list http://packages.couchbase.com/ubuntu/couchbase-ubuntu1204.list
 RUN apt-get update && apt-get install -y libcouchbase2-libevent libcouchbase-dev libjpeg62-turbo-dev
@@ -60,20 +47,23 @@ RUN php-installer extension raphf
 RUN php-installer extension propro
 RUN php-installer extension imagick
 RUN php-installer configure
+RUN php-installer update
 
 RUN export TERM=xterm
 
-## NGINX installation
+#NGINX installation
 RUN wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key && \
     echo 'deb http://nginx.org/packages/debian/ jessie nginx' >> /etc/apt/sources.list && \
     echo 'deb-src http://nginx.org/packages/debian/ jessie nginx' >> /etc/apt/sources.list && \
     apt-get update -y && apt-get install -y nginx
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-RUN ln -sf /dev/stderr /var/log/nginx/error.log
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
+ADD assets/launch.sh
 
 EXPOSE 9000
 EXPOSE 9001
 EXPOSE 443
 EXPOSE 80
 EXPOSE 22
+
 CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["launch.sh"]
