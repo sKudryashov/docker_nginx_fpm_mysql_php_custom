@@ -3,5 +3,7 @@
 /data/*
 /nginx/*
 /php-installer/*
+.idea
+.idea/*
 
 

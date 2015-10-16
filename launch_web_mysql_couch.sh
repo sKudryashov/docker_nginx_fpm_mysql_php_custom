@@ -1,26 +1,35 @@
 #!/usr/bin/env bash
 NGINX_LOG=$PWD'/nginx/log/'
-HOST_CONFIG=$PWD'/conf-d/'
+HOST_CONFIG=$PWD'/conf.d/'
 DATABASE_DIR=$PWD'/data'
 
 DATABASE_NAME='dbtest'
 DATABASE_USER='dbtest_user'
 DATABASE_PASSWORD='123qwe'
+
 HOST_CONFIG=$HOST_CONFIG
-CONTAINER_CONFIG='/etc/nginx/conf-d/'
+CONTAINER_CONFIG='/etc/nginx/conf.d/'
+
 XDEBUG_PORT=9001
+
 HOST_VOLUME=$PWD
-CONTAINER_VOLUME='/etc/nginx/html'
+CONTAINER_VOLUME='/usr/share/nginx/html'
+
 HOST_WEB_LOG=$NGINX_LOG
 CONTAINER_WEB_LOG=/var/log/nginx/
+
 CONTAINER_NAME='sfera/nginx-php-fpm:0.3'
+
 HOST_PORT=81
 CONTAINER_PORT=80
+
 DATABASE_HOST_VOLUME=$PWD'./db/'$DATABASE_NAME'/'
 DATABASE_CONTAINER_VOLUME='/var/www/mysql/'$DATABASE_NAME'/'
+
 NAME_WEB_STACK_CONTAINER='web-stack'
 NAME_SQL_CONTAINER='percona-db'
 NAME_NOSQL_CONTAINER='couch-db'
+
 USER_INPUT=$1
 NAME=$(basename $0)
 
