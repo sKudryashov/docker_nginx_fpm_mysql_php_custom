@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-WORKDIR=$PWD
+WORKDIR=$PWD'/../'
+
 NGINX_LOG=$WORKDIR'/nginx/log/'
 HOST_CONFIG=$WORKDIR'/conf.d/'
 DATABASE_DIR=$WORKDIR'/data'
@@ -21,7 +22,7 @@ CONTAINER_WEB_LOG=/var/log/nginx/
 
 CONTAINER_NAME='sfera/nginx-php-fpm:0.3'
 
-HOST_PORT=81
+HOST_PORT=80
 CONTAINER_PORT=80
 
 DATABASE_HOST_VOLUME=$WORKDIR'/db/'$DATABASE_NAME'/'
