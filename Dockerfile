@@ -77,10 +77,3 @@ EXPOSE 443
 EXPOSE 80
 EXPOSE 22
 CMD ["nginx", "-g", "daemon off;"]
-
-echo "# docker_launcher_nginx_fpm_mysql_php_custom" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin git@github.com:sKudryashov/docker_launcher_nginx_fpm_mysql_php_custom.git
-git push -u origin master
