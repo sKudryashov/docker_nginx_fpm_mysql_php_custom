@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 WORKDIR=$PWD'/../'
 
-NGINX_LOG=$WORKDIR'/nginx/log/'
-HOST_CONFIG=$WORKDIR'/conf.d/'
+NGINX_DIR=$WORKDIR'/nginx/'
+NGINX_LOG=$NGINX_DIR'/log/'
+HOST_CONFIG=$NGINX_DIR'/conf.d/'
 DATABASE_DIR=$WORKDIR'/data'
 
 DATABASE_NAME='dbtest'
@@ -20,7 +21,7 @@ CONTAINER_VOLUME='/usr/share/nginx/html'
 HOST_WEB_LOG=$NGINX_LOG
 CONTAINER_WEB_LOG=/var/log/nginx/
 
-CONTAINER_NAME='sfera/nginx-php-fpm:0.3'
+CONTAINER_NAME='sfera/nginx-php-fpm:0.4'
 
 HOST_PORT=80
 CONTAINER_PORT=80
@@ -35,8 +36,26 @@ NAME_NOSQL_CONTAINER='couch-db'
 USER_INPUT=$1
 NAME=$(basename $0)
 
+function create_dirs {
+  if [ ! -d $NGINX_DIR ]; then
+      mkdir $NGINX_DIR
+  fi
 
-function start_containers { # {{{
+  if [ ! -d $NGINX_LOG ]; then
+      mkdir $NGINX_LOG
+  fi
+
+  if [ ! -d $HOST_CONFIG ]; then
+      mkdir $HOST_CONFIG
+  fi
+
+  if [ ! -d $DATABASE_DIR ]; then
+      mkdir $DATABASE_DIR
+  fi
+}
+
+function start_containers {
+  create_dirs
   #Before start container we need to remove all containers with same names with suppressing possible error messages
   docker rm $NAME_WEB_STACK_CONTAINER 2> /dev/null
   docker rm $NAME_SQL_CONTAINER 2> /dev/null
@@ -53,21 +72,21 @@ function start_containers { # {{{
     --link=$NAME_NOSQL_CONTAINER:dbnosql $CONTAINER_NAME
 
   docker ps
-} # }}}
+}
 
-function stop_containers() { # {{{
+function stop_containers() {
   docker kill $NAME_WEB_STACK_CONTAINER 2> /dev/null
   docker kill $NAME_SQL_CONTAINER 2> /dev/null
   docker kill $NAME_NOSQL_CONTAINER 2> /dev/null
   docker rm $NAME_WEB_STACK_CONTAINER 2> /dev/null
   docker rm $NAME_SQL_CONTAINER 2> /dev/null
   docker rm $NAME_NOSQL_CONTAINER 2> /dev/null
-} # }}}
+}
 
-function restart_containers() { # {{{
+function restart_containers() {
   stop_containers
   start_containers
-} # }}}
+}
 
 case "$USER_INPUT" in
   start)
