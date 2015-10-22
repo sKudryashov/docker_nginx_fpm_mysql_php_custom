@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-WORKDIR=$PWD
+WORKDIR=$PWD'/docker/'
+LOGDIR=$WORKDIR'/var/log'
 
 NGINX_DIR=$WORKDIR'/nginx'
-NGINX_LOG=$NGINX_DIR'/log'
+NGINX_LOG=$LOGDIR'/nginx'
 HOST_CONFIG=$NGINX_DIR'/conf.d'
 DATABASE_DIR=$WORKDIR'/data'
+PHP_LOG=$LOGDIR'/php'
 
 DATABASE_NAME='dbtest'
 DATABASE_USER='dbtest_user'
@@ -19,7 +21,10 @@ HOST_VOLUME=$WORKDIR
 CONTAINER_VOLUME='/usr/share/nginx/html'
 
 HOST_WEB_LOG=$NGINX_LOG
-CONTAINER_WEB_LOG=/var/log/nginx/
+CONTAINER_WEB_LOG='/var/log/nginx/'
+
+HOST_PHP_LOG=$PHP_LOG
+CONTAINER_PHP_LOG='/usr/local/lib/php5.5.28/var/log/'
 
 CONTAINER_NAME='sfera/nginx-php-fpm:0.4'
 
@@ -39,23 +44,25 @@ NAME_NOSQL_CONTAINER='couch-db'
 USER_INPUT=$1
 NAME=$(basename $0)
 
-echo $DATABASE_DIR
 
 function create_dirs {
+  if [ ! -d $PHP_LOG ]; then
+      mkdir -p $PHP_LOG
+  fi
   if [ ! -d $NGINX_DIR ]; then
-      mkdir $NGINX_DIR
+      mkdir -p $NGINX_DIR
   fi
 
   if [ ! -d $NGINX_LOG ]; then
-      mkdir $NGINX_LOG
+      mkdir -p $NGINX_LOG
   fi
 
   if [ ! -d $HOST_CONFIG ]; then
-      mkdir $HOST_CONFIG
+      mkdir -p $HOST_CONFIG
   fi
 
   if [ ! -d $DATABASE_DIR ]; then
-      mkdir $DATABASE_DIR
+      mkdir -p $DATABASE_DIR
   fi
 }
 
@@ -74,7 +81,8 @@ function start_containers {
 
   docker run -d -p $XDEBUG_PORT:$XDEBUG_PORT -p $HOST_PORT:$CONTAINER_PORT -p $CONTAINER_HOST_PORT:$CONTAINER_SSH_PORT  \
    -v /$HOST_CONFIG:$CONTAINER_CONFIG -v /$HOST_VOLUME:$CONTAINER_VOLUME \
-   -v /$HOST_WEB_LOG:$CONTAINER_WEB_LOG --name=$NAME_WEB_STACK_CONTAINER --link=$NAME_NOSQL_CONTAINER:dbnosql $CONTAINER_NAME
+   -v /$HOST_WEB_LOG:$CONTAINER_WEB_LOG -v /$HOST_PHP_LOG:$CONTAINER_PHP_LOG --name=$NAME_WEB_STACK_CONTAINER \
+   --link=$NAME_NOSQL_CONTAINER:dbnosql --link=$NAME_SQL_CONTAINER:dbsql $CONTAINER_NAME
 
   docker ps
 }
