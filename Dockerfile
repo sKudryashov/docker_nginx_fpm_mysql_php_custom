@@ -22,6 +22,7 @@ RUN chown -R nginx:nginx /etc/nginx/
 
 RUN usermod -a -G root nginx && usermod -a -G adm nginx && chmod g+w /var/log/nginx/ \
  && chmod g+w /var/log/nginx/access.log && chmod g+w /var/log/nginx/error.log
+RUN apt-get install -y openssh-server
 
 # Supervisor Config
 ADD assets/supervisord.conf /etc/supervisord.conf
