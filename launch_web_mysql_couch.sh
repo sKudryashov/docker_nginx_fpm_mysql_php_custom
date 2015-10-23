@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-WORKDIR=$PWD'/docker/'
-LOGDIR=$WORKDIR'/var/log'
+WORKDIR=$PWD
+LOGDIR=$WORKDIR'/docker/var/log'
 
 NGINX_DIR=$WORKDIR'/nginx'
 NGINX_LOG=$LOGDIR'/nginx'
 HOST_CONFIG=$NGINX_DIR'/conf.d'
-DATABASE_DIR=$WORKDIR'/data'
+DATABASE_DIR=$WORKDIR'/docker/data'
 PHP_LOG=$LOGDIR'/php'
 
 DATABASE_NAME='dbtest'
