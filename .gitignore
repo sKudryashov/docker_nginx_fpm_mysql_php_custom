@@ -4,4 +4,4 @@
 /nginx/*
 /php-installer/*
 /.idea/*
-
+/docker/*
