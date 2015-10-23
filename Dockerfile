@@ -33,6 +33,8 @@ RUN sed -i -e '4 a\error_reporting = E_ALL' /usr/local/lib/php5.5.28/etc/php.ini
 
 # Supervisor Config
 ADD assets/supervisord.conf /etc/supervisord.conf
+RUN echo "export TERM=xterm" >> /etc/profile
+
 
 EXPOSE 9000
 EXPOSE 9001
