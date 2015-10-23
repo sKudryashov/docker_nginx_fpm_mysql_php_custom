@@ -74,7 +74,6 @@ function start_containers {
   docker rm $NAME_NOSQL_CONTAINER 2> /dev/null
 
   #https://hub.docker.com/_/percona/
-  #docker run --rm --name=$NAME_SQL_CONTAINER -e DBNAME=$DATABASE_NAME -e DBUSER=$DATABASE_USER -e DBPASS=$DATABASE_PASSWORD nicescale/percona-mysql /opt/nicedocker/create_db.sh
   docker run --name=$NAME_SQL_CONTAINER  -e MYSQL_ROOT_PASSWORD=$DATABASE_PASSWORD -d percona:latest
   #https://github.com/klaemo/docker-couchdb
   docker run -d -p 5984:5984 -v /$DATABASE_DIR:/usr/local/var/lib/couchdb --name=$NAME_NOSQL_CONTAINER klaemo/couchdb
