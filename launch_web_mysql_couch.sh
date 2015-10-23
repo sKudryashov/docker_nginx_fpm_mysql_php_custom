@@ -4,7 +4,7 @@ LOGDIR=$WORKDIR'/docker/var/log'
 
 NGINX_DIR=$WORKDIR'/nginx'
 NGINX_LOG=$LOGDIR'/nginx'
-HOST_CONFIG=$NGINX_DIR'/conf.d'
+HOST_CONFIG=$NGINX_DIR'/conf.d/'
 DATABASE_DIR=$WORKDIR'/docker/data'
 PHP_LOG=$LOGDIR'/php'
 
@@ -13,9 +13,9 @@ DATABASE_USER='dbtest_user'
 DATABASE_PASSWORD='123qwe'
 
 HOST_CONFIG=$HOST_CONFIG
-CONTAINER_CONFIG='/etc/nginx/conf.d'
+CONTAINER_CONFIG='/etc/nginx/conf.d/sites'
 
-XDEBUG_PORT=9001
+XDEBUG_PORT=9000
 
 HOST_VOLUME=$WORKDIR
 CONTAINER_VOLUME='/usr/share/nginx/html'

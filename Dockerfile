@@ -1,6 +1,8 @@
 #FROM debian:8.2
 FROM sfera/php-base-custom:0.1
 
+RUN apt-get update -y
+
 #NGINX installation
 RUN wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key && \
     echo 'deb http://nginx.org/packages/debian/ jessie nginx' >> /etc/apt/sources.list && \
@@ -22,7 +24,6 @@ RUN chown -R nginx:nginx /etc/nginx/
 
 RUN usermod -a -G root nginx && usermod -a -G adm nginx && chmod g+w /var/log/nginx/ \
  && chmod g+w /var/log/nginx/access.log && chmod g+w /var/log/nginx/error.log
-RUN apt-get install -y openssh-server
 
 #Tweaking php config a bit
 RUN sed -i -e '1 a\;=== Errors handling ===========================================================================' /usr/local/lib/php5.5.28/etc/php.ini
@@ -34,11 +35,24 @@ RUN sed -i -e '4 a\error_reporting = E_ALL' /usr/local/lib/php5.5.28/etc/php.ini
 # Supervisor Config
 ADD assets/supervisord.conf /etc/supervisord.conf
 
+#SSH service
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:000999' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ENV export NOTVISIBLE="in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+#ssh root@127.0.0.1 -p 23
+
+
 EXPOSE 9000
 EXPOSE 9001
 EXPOSE 443
 EXPOSE 80
 EXPOSE 22
+
+#USER nginx
 
 ENTRYPOINT ["./launch.sh"]
 
