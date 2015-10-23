@@ -25,7 +25,7 @@ RUN usermod -a -G root nginx && usermod -a -G adm nginx && chmod g+w /var/log/ng
 RUN apt-get install -y openssh-server
 
 #Tweaking php config a bit
-RUN sed -i -e '1 a\[;=== Errors handling ===========================================================================]' /usr/local/lib/php5.5.28/etc/php.ini
+RUN sed -i -e '1 a\;=== Errors handling ===========================================================================' /usr/local/lib/php5.5.28/etc/php.ini
 RUN sed -i -e '2 a\display_errors = On' /usr/local/lib/php5.5.28/etc/php.ini
 RUN sed -i -e '3 a\display_startup_errors = On' /usr/local/lib/php5.5.28/etc/php.ini
 RUN sed -i -e '4 a\error_log = /var/log/php/php_errors.log' /usr/local/lib/php5.5.28/etc/php.ini
