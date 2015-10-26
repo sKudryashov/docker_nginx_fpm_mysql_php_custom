@@ -54,11 +54,11 @@ RUN cd /etc/ssh/ && chmod 644 $(ls | grep .pub) && chmod 600 moduli && chmod 644
     && chmod 600 ssh_host_dsa_key && chmod 600 ssh_host_ecdsa_key && chmod 600 ssh_host_rsa_key \
     && chmod 600 ssh_host_ed25519_key && chmod 640 sshd_config
 RUN sed -i 's/PermitEmptyPasswords no/PermitEmptyPasswords yes/' /etc/ssh/sshd_config
+RUN apt-get install -y nano
 
-#RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
 #SSH connect example: ssh root@127.0.0.1 -p 23
-
 
 #EXPOSE 9000
 EXPOSE 9001
