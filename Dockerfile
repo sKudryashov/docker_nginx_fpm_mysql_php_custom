@@ -38,7 +38,6 @@ ADD assets/supervisord.conf /etc/supervisord.conf
 #SSH service
 RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
-RUN echo 'root:000999' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 ENV export NOTVISIBLE="in users profile"
