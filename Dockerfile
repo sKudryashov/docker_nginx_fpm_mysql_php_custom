@@ -42,6 +42,15 @@ RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/ss
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 ENV export NOTVISIBLE="in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
+ADD assets/ssh/ssh_host_dsa_key /etc/ssh/ssh_host_dsa_key
+ADD assets/ssh/ssh_host_dsa_key.pub /etc/ssh/ssh_host_dsa_key.pub
+ADD assets/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key
+ADD assets/ssh/ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
+ADD assets/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
+ADD assets/ssh/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
+ADD assets/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
+ADD assets/ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
+
 #ssh root@127.0.0.1 -p 23
 
 
