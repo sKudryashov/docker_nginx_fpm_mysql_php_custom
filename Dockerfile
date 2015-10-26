@@ -53,6 +53,10 @@ ADD assets/ssh/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
 ADD assets/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
 ADD assets/ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
 
+RUN cd /etc/ssh/ && chmod 644 $(ls | grep .pub) && chmod 600 moduli && chmod 644 ssh_config \
+    && chmod 600 ssh_host_dsa_key && chmod 600 ssh_host_ecdsa_key && chmod 600 ssh_host_rsa_key \
+    && chmod 600 ssh_host_ed25519_key && chmod 640 sshd_config
+
 #ssh root@127.0.0.1 -p 23
 
 
