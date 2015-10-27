@@ -21,7 +21,8 @@ ADD assets/php-test/index.php /usr/share/nginx/html/
 RUN chown -R nginx:nginx /etc/nginx/
 
 RUN usermod -a -G root nginx && usermod -a -G adm nginx && chmod g+w /var/log/nginx/ \
- && chmod g+w /var/log/nginx/access.log && chmod g+w /var/log/nginx/error.log
+ && chmod g+w /var/log/nginx/access.log && chmod g+w /var/log/nginx/error.log \
+ && usermod -a -G root www-data && usermod -a -G adm www-data && chmod 0777 /tmp
 
 #Tweaking php config a bit
 RUN sed -i -e '1 a\;=== Errors handling ===========================================================================' /usr/local/lib/php5.5.28/etc/php.ini
