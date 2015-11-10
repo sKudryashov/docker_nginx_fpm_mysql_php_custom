@@ -61,6 +61,16 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/
 
 #SSH connect example: ssh root@127.0.0.1 -p 23
 
+#install php composer globally
+RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#install phpunit globally
+RUN wget https://phar.phpunit.de/phpunit.phar && chmod +x phpunit.phar && sudo mv phpunit.phar /usr/local/bin/phpunit \
+   && rm -rf phpunit.phar
+
+#install symfony framework globally
+RUN curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony && curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
+
 #EXPOSE 9000
 EXPOSE 9001
 EXPOSE 443
@@ -70,4 +80,3 @@ EXPOSE 22
 #USER nginx
 
 ENTRYPOINT ["./launch.sh"]
-
